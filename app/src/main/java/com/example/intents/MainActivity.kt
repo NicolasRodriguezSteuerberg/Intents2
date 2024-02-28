@@ -20,6 +20,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val resultado = intent.getIntExtra("resultado", 0)
                     Nav()
                 }
             }

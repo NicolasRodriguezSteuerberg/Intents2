@@ -48,8 +48,7 @@ fun Camera(navController: NavController){
             FloatingActionButton(
                 onClick = {
                     val executor = ContextCompat.getMainExecutor(context)
-                    takePicture(cameraController, executor)
-                    navController.navigate("home")
+                    takePicture(cameraController, executor, navController)
                 }
             ){
                 Text(text = "Tomar foto")
@@ -67,7 +66,8 @@ fun Camera(navController: NavController){
 
 private fun takePicture(
     cameraController: LifecycleCameraController,
-    executor: Executor
+    executor: Executor,
+    navController: NavController
 ) {
     val file = File.createTempFile("phototest", ".jpg")
     val outputDirectory = ImageCapture.OutputFileOptions.Builder(file).build()
@@ -78,6 +78,7 @@ private fun takePicture(
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                 Data.uri.value = outputFileResults.savedUri
                 Log.d("Photo", outputFileResults.savedUri.toString())
+                navController.popBackStack()
             }
 
             override fun onError(exception: ImageCaptureException) {
